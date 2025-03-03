@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>KRGZ-Love flows like water,endless and pure - danxiang</title>
+    <meta charset="utf-8">
+<meta name="google-adsense-account" content="ca-pub-9159744845940766">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+
+    <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #000;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(255, 255, 255, 0.8);
+      font-family: "Times New Roman", serif;
+      font-size: 2em;
+      text-align: center;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      opacity: 0;
+      animation: fadeInOut 5s infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="message">Love flows like water,<br>endless and pure</div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // 修改后的粒子系统
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        // 基础速度向右上方
+        this.vx = Math.random() * 1 + 1; // 始终为正，向右移动
+        this.vy = -Math.random() * 1 - 0.5; // 始终为负，向上移动
+        this.life = Math.random() * 100 + 100;
+        this.maxLife = this.life;
+        this.radius = Math.random() * 2 + 1;
+        this.hue = Math.random() * 60 + 300;
+      }
+
+      update() {
+        // 添加轻微的随机扰动，但保持主要方向
+        this.vx += (Math.random() - 0.3) * 0.1; // 偏向右侧
+        this.vy += (Math.random() - 0.5) * 0.05; // 允许上下轻微摆动
+
+        // 限制速度范围，确保主要方向
+        this.vx = Math.max(0.5, Math.min(this.vx, 2)); // 始终保持向右
+        this.vy = Math.max(-2, Math.min(this.vy, 0.5)); // 主要向上，允许轻微下落
+
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life--;
+
+        return this.life > 0;
+      }
+
+      draw(ctx) {
+        const alpha = this.life / this.maxLife;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 100%, 70%, ${alpha})`;
+        ctx.fill();
+      }
+    }
+
+    // 主要动画系统
+    const particles = [];
+    let mouseX = 0, mouseY = 0;
+    let isMouseDown = false;
+
+    function animate() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 更新和绘制所有粒子
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        if (!p.update()) {
+          particles.splice(i, 1);
+        } else {
+          p.draw(ctx);
+        }
+      }
+
+      // 添加新粒子
+      if (isMouseDown) {
+        for (let i = 0; i < 5; i++) {
+          particles.push(new Particle(mouseX, mouseY));
+        }
+      } else if (Math.random() < 0.3) {
+        particles.push(new Particle(
+          Math.random() * canvas.width * 0.2, // 只在左侧20%区域生成
+          Math.random() * canvas.height
+        ));
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // 统一处理触摸和鼠标位置的函数
+    function updatePosition(x, y) {
+      mouseX = x * devicePixelRatio;
+      mouseY = y * devicePixelRatio;
+    }
+
+    // 鼠标事件监听
+    canvas.addEventListener('mousemove', (e) => {
+      e.preventDefault();
+      updatePosition(e.clientX, e.clientY);
+    });
+
+    canvas.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isMouseDown = true;
+      updatePosition(e.clientX, e.clientY);
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      isMouseDown = false;
+    });
+
+    // 触摸事件监听
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isMouseDown = true;
+      const touch = e.touches[0];
+      updatePosition(touch.clientX, touch.clientY);
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      updatePosition(touch.clientX, touch.clientY);
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      isMouseDown = false;
+    }, { passive: false });
+
+    // 防止页面滚动
+    document.body.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
+
+    // 启动动画
+    animate();
+  </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICO 图标生成器</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<meta name="google-adsense-account" content="ca-pub-9159744845940766">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="Shortcut Icon" href="../images/favicon.ico" type="image/x-icon">
+
+    <style>
+        .drag-area {
+            border: 2px dashed #4CAF50;
+            transition: all 0.3s ease;
+        }
+        .drag-area.active {
+            border-color: #2196F3;
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+        .preview-container {
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+                             linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+                             linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+                             linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        #cropPreview {
+            max-width: 100%;
+            max-height: 300px;
+        }
+    .navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+
+@media (min-width: 768px) {
+    .navbar-header {
+        float:left
+    }
+}
+
+header {
+    background-color: #f8f9fa;
+    width: 100vw; /* 使用视窗宽度 */
+    margin-left: calc(-50vw + 50%); /* 处理居中的同时实现全宽 */
+    padding: 1rem 0; /* 水平内边距设为0 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* 保持内容区域的侧边距 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo:hover {
+    transform: scale(1.15);
+}
+
+nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #007bff;
+}
+
+.container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1300px;
+    padding: 0;
+}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0px;
+            color: var(--text-color);
+        }    </style>
+</head>
+<nav class="navbar navbar-default" id="navbar">
+<div class="container">
+
+    <header>
+        <div class="header-content">
+            <div class="logo"><a href="../index.html"><img src="../images/favicon.jpg" width="100%" height="100%"></a></div>
+            <nav>
+                <a href="../Contributors.html">贡献</a>
+                <a href="../renew.html">更新日志</a>
+            </nav>
+        </div>
+    </header>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+
+            <h1 class="text-4xl font-bold text-gray-800 mb-4"></h1>
+            <p class="text-gray-600"></p>
+
+
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <div class="drag-area rounded-lg p-8 text-center mb-8 cursor-pointer" id="dragArea">
+                <div class="flex flex-col items-center">
+                    <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <p class="text-lg mb-2">ICO 图标生成器-轻松创建各种尺寸的网站图标-拖拽图片到这里或</p>
+                    <input type="file" id="imageInput" accept="image/*" class="hidden">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-200" onclick="document.getElementById('imageInput').click()">
+                        选择文件
+                    </button>
+                </div>
+            </div>
+
+            <div id="previewSection" class="hidden">
+                <div class="space-y-6">
+                    <div class="preview-container p-4 rounded-lg">
+                        <canvas id="cropPreview"></canvas>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">选择图标尺寸</label>
+                            <select id="sizeSelect" class="w-full p-2 border rounded">
+                                <option value="16">16x16</option>
+                                <option value="32">32x32</option>
+                                <option value="48">48x48</option>
+                                <option value="64">64x64</option>
+                                <option value="128">128x128</option>
+                                <option value="256">256x256</option>
+                                <option value="512">512x512</option>
+                            </select>
+                        </div>
+                        
+                        <button id="generateBtn" class="w-full bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition duration-200">
+                            生成 ICO 图标
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="result" class="hidden mt-8 p-6 bg-gray-50 rounded-lg">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">生成的图标</h3>
+                <div class="flex items-center justify-between">
+                    <img id="resultImage" class="border border-gray-200 rounded" alt="生成的图标">
+                    <a id="downloadLink" href="#" download="favicon.ico" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-200">
+                        下载图标
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dragArea = document.getElementById('dragArea');
+        const imageInput = document.getElementById('imageInput');
+        const previewSection = document.getElementById('previewSection');
+        const cropPreview = document.getElementById('cropPreview');
+        const generateBtn = document.getElementById('generateBtn');
+        const result = document.getElementById('result');
+        const resultImage = document.getElementById('resultImage');
+        const downloadLink = document.getElementById('downloadLink');
+        let originalImage = null;
+        let currentImageUrl = null;
+
+        // 清除缓存的函数
+        function clearCache() {
+            // 清除之前的 URL
+            if (currentImageUrl) {
+                URL.revokeObjectURL(currentImageUrl);
+                currentImageUrl = null;
+            }
+            
+            // 清除预览画布
+            const ctx = cropPreview.getContext('2d');
+            ctx.clearRect(0, 0, cropPreview.width, cropPreview.height);
+            
+            // 重置图片相关变量
+            originalImage = null;
+            
+            // 清除结果显示
+            resultImage.src = '';
+            downloadLink.href = '#';
+            
+            // 隐藏预览和结果区域
+            previewSection.classList.add('hidden');
+            result.classList.add('hidden');
+            
+            // 清除文件输入
+            imageInput.value = '';
+        }
+
+        // 拖拽事件处理
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dragArea.addEventListener(eventName, e => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dragArea.addEventListener(eventName, () => dragArea.classList.add('active'));
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dragArea.addEventListener(eventName, () => dragArea.classList.remove('active'));
+        });
+
+        dragArea.addEventListener('drop', e => {
+            const dt = e.dataTransfer;
+            handleFiles({ target: { files: dt.files } });
+        });
+
+        imageInput.addEventListener('change', handleFiles);
+
+        function handleFiles(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                // 在处理新文件前清除旧的缓存
+                clearCache();
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    originalImage = new Image();
+                    originalImage.onload = function() {
+                        previewSection.classList.remove('hidden');
+                        updateCropPreview();
+                    };
+                    originalImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateCropPreview() {
+            const ctx = cropPreview.getContext('2d');
+            const size = Math.min(originalImage.width, originalImage.height);
+            
+            // 计算裁剪区域
+            const offsetX = (originalImage.width - size) / 2;
+            const offsetY = (originalImage.height - size) / 2;
+            
+            // 设置预览canvas的大小
+            const maxPreviewSize = 300;
+            const scale = Math.min(maxPreviewSize / size, 1);
+            cropPreview.width = size * scale;
+            cropPreview.height = size * scale;
+            
+            // 清除画布并绘制裁剪后的图像
+            ctx.clearRect(0, 0, cropPreview.width, cropPreview.height);
+            ctx.drawImage(
+                originalImage,
+                offsetX, offsetY, size, size,
+                0, 0, cropPreview.width, cropPreview.height
+            );
+        }
+
+        generateBtn.addEventListener('click', async function() {
+            if (!originalImage) return;
+
+            // 如果存在之前生成的URL，先释放它
+            if (currentImageUrl) {
+                URL.revokeObjectURL(currentImageUrl);
+            }
+
+            const size = parseInt(document.getElementById('sizeSelect').value);
+            
+            // 创建临时canvas用于生成ICO
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 设置canvas尺寸
+            canvas.width = size;
+            canvas.height = size;
+            
+            // 计算裁剪区域
+            const originalSize = Math.min(originalImage.width, originalImage.height);
+            const offsetX = (originalImage.width - originalSize) / 2;
+            const offsetY = (originalImage.height - originalSize) / 2;
+            
+            // 绘制裁剪后的图像
+            ctx.drawImage(
+                originalImage,
+                offsetX, offsetY, originalSize, originalSize,
+                0, 0, size, size
+            );
+
+            // 获取图像数据
+            const imageData = ctx.getImageData(0, 0, size, size);
+
+            // 创建ICO文件
+            const headerSize = 6;
+            const directorySize = 16;
+            const bitmapInfoHeaderSize = 40;
+            const pixelDataSize = size * size * 4;
+            const totalSize = headerSize + directorySize + bitmapInfoHeaderSize + pixelDataSize;
+
+            const buffer = new ArrayBuffer(totalSize);
+            const view = new DataView(buffer);
+            
+            // ICO header
+            view.setUint16(0, 0, true);
+            view.setUint16(2, 1, true);
+            view.setUint16(4, 1, true);
+
+            // ICO directory
+            view.setUint8(6, size);
+            view.setUint8(7, size);
+            view.setUint8(8, 0);
+            view.setUint8(9, 0);
+            view.setUint16(10, 1, true);
+            view.setUint16(12, 32, true);
+            view.setUint32(14, bitmapInfoHeaderSize + pixelDataSize, true);
+            view.setUint32(18, headerSize + directorySize, true);
+
+            // Bitmap info header
+            let offset = headerSize + directorySize;
+            view.setUint32(offset, 40, true);
+            view.setInt32(offset + 4, size, true);
+            view.setInt32(offset + 8, size * 2, true);
+            view.setUint16(offset + 12, 1, true);
+            view.setUint16(offset + 14, 32, true);
+            view.setUint32(offset + 16, 0, true);
+            view.setUint32(offset + 20, pixelDataSize, true);
+            view.setUint32(offset + 24, 0, true);
+            view.setUint32(offset + 28, 0, true);
+            view.setUint32(offset + 32, 0, true);
+            view.setUint32(offset + 36, 0, true);
+
+            // 写入像素数据
+            offset = headerSize + directorySize + bitmapInfoHeaderSize;
+            for (let y = size - 1; y >= 0; y--) {
+                for (let x = 0; x < size; x++) {
+                    const pixelOffset = (y * size + x) * 4;
+                    view.setUint8(offset++, imageData.data[pixelOffset + 2]); // B
+                    view.setUint8(offset++, imageData.data[pixelOffset + 1]); // G
+                    view.setUint8(offset++, imageData.data[pixelOffset]); // R
+                    view.setUint8(offset++, imageData.data[pixelOffset + 3]); // A
+                }
+            }
+
+            // 创建下载链接
+            const blob = new Blob([buffer], { type: 'image/x-icon' });
+            currentImageUrl = URL.createObjectURL(blob);
+            
+            // 显示结果
+            result.classList.remove('hidden');
+            resultImage.src = currentImageUrl;
+            resultImage.style.width = '64px';
+            downloadLink.href = currentImageUrl;
+        });
+
+        // 页面卸载时清理资源
+        window.addEventListener('beforeunload', clearCache);
+    </script>
+</body>
+</html>

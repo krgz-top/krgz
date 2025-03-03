@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>KRGZ-代码流特效</title>
+    <meta charset="utf-8">
+<meta name="google-adsense-account" content="ca-pub-9159744845940766">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+        
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        // 设置canvas为全屏
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 字符集 - 包含数字、字母和一些特殊字符
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$@#*&^!'.split('');
+
+        // 字符大小
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        // 跟踪每列的当前位置
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            // 设置半透明的黑色背景，产生渐隐效果
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 设置文字颜色和字体
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            // 绘制字符
+            for (let i = 0; i < drops.length; i++) {
+                // 随机选择一个字符
+                const char = chars[Math.floor(Math.random() * chars.length)];
+                
+                // 在对应位置绘制字符
+                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+                // 如果该列达到底部或随机触发重置，则重置到顶部
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                // 移动到下一个位置
+                drops[i]++;
+            }
+        }
+
+        // 监听窗口大小变化
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // 定期重绘
+        setInterval(draw, 33);
+    </script>
+</body>
+</html>

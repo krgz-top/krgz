@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>KRGZ</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="KRGZ">
+    <meta name="description" content="欢迎来到KRGZ！">
+<meta name="google-adsense-account" content="ca-pub-9159744845940766">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/style-index.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9159744845940766"
+     crossorigin="anonymous"></script>
+
+<style>
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f2f5f7;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 100px auto;
+    padding: 0 0px;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 0px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 49px;
+    top: 0;
+    bottom: 0;
+    width: 0px;
+    background: #e9ecef;
+}
+
+.update-card {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 30px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.update-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.update-card::before {
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 24px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #2196F3;
+    z-index: 1;
+}
+
+.update-card::after {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 34px;
+    width: 30px;
+    height: 2px;
+    background: #e9ecef;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.version {
+    display: flex;
+    flex-direction: column;
+}
+
+.version-number {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2196F3;
+    margin-bottom: 5px;
+}
+
+.date {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.changes {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin: 0;
+}
+
+.changes li {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+/* Loading styles */
+.loading {
+    padding: 40px;
+    display: none;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 300px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    max-width: 100%;
+    background-color: #FFF;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .15);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    line-height: 1.33;
+    font-weight: 700;
+}
+
+.card-title.skeleton {
+    min-height: 28px;
+    border-radius: 4px;
+}
+
+.card-intro {
+    margin-top: .75rem;
+    line-height: 1.5;
+}
+
+.card-intro.skeleton {
+    min-height: 100px;
+    border-radius: 4px;
+}
+
+.skeleton {
+    background-color: #e2e5e7;
+    background-image: linear-gradient(
+        90deg, 
+        rgba(255, 255, 255, 0), 
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0)
+    );
+    background-size: 40px 100%;
+    background-repeat: no-repeat;
+    background-position: left -40px top 0;
+    animation: shine 1s ease infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: right -40px top 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .timeline {
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        left: 29px;
+    }
+    
+    .update-card::before {
+        left: -30px;
+    }
+    
+    .update-card::after {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="index.html">
+                    <img src="images/favicon.jpg" alt="KRGZ Logo">
+                </a>
+            </div>
+            <nav class="top-nav">
+                <a href="Contributors.html">贡献</a>
+                <a href="renew.html">更新日志</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="timeline" id="timeline"></div>
+        <div class="loading" id="loading">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title skeleton"></h2>
+                    <p class="card-intro skeleton"></p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title skeleton"></h2>
+                    <p class="card-intro skeleton"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+const updates = [
+    {
+        version: 'KRGZ-1.4.0',
+        date: '2025/02/28',
+        changes: ['优化了首页部分文字效果','补充了更多的图片','为首页添加了每刷一句（俄语谚语）','为贡献者墙页面做出了移动端支持']
+    },
+    {
+        version: 'KRGZ-1.3.9',
+        date: '2025/02/26',
+        changes: ['移动端适配已完成','修复天籁页面中的歌名与歌曲不匹配的情况']
+    },
+    {
+        version: 'KRGZ-1.3.8',
+        date: '2025/02/23',
+        changes: ['为部分页面添加自定义滚动条样式','整合了赴吉须知中出行中的三大软件教程，集合为公交系统的使用']
+    },
+    {
+        version: 'KRGZ-1.3.7',
+        date: '2025/02/20',
+        changes: ['更换了MEGA网盘的账号和Google Play的下载链接','格式化了音乐页面中的播放列表','添加邮箱联系方式','调整计时器位置','优化了滚动条样式']
+    },
+    {
+        version: 'KRGZ-1.3.6',
+        date: '2025/02/19',
+        changes: ['添加了更多的音乐','详细化了部分页面中的内容']
+    },
+    {
+        version: 'KRGZ-1.3.5',
+        date: '2025/02/18',
+        changes: ['添加了ins和小红书的社交账号链接','调整部分内容的位置']
+    },
+    {
+        version: 'KRGZ-1.3.4',
+        date: '2025/02/17',
+        changes: ['添加了部分内容']
+    },
+    {
+        version: 'KRGZ-1.3.3',
+        date: '2025/02/16',
+        changes: ['修复了一些Bug。','完善了部分内容']
+    },
+    {
+        version: 'KRGZ-1.3.2',
+        date: '2025/02/15',
+        changes: ['修复了一些Bug。','添加了更多内容']
+    },
+    {
+        version: 'KRGZ-1.3.1',
+        date: '2025/02/13',
+        changes: ['修复了一些Bug。','上线了ICO制作工具','修复ICO制作工具中存在的的部分问题']
+    },
+    {
+        version: 'KRGZ-1.3.0',
+        date: '2025/02/11',
+        changes: ['修复了一些Bug。','添加了部分页脚功能','对一些内容进行了补充','补充了部分图片','在“赴吉须知”中添加了”重要！“一栏']
+    },
+    {
+        version: 'KRGZ-1.2.9',
+        date: '2025/02/10',
+        changes: ['修复了一些Bug。','去除关于界面','对部分内容进行重新排版']
+    },
+    {
+        version: 'KRGZ-1.2.8',
+        date: '2025/02/09',
+        changes: ['修复了一些Bug。','去除音乐界面中的频谱条','添加更多内容']
+    },
+    {
+        version: 'KRGZ-1.2.7',
+        date: '2025/02/07',
+        changes: ['修复了一些Bug。','制作了新的图标']
+    },
+    {
+        version: 'KRGZ-1.2.6',
+        date: '2025/02/02',
+        changes: ['修复了一些Bug。','去除了部分预添加的内容','将软件指南更改为赴吉须知','更换了更新日志界面的加载方式及其逻辑','变动了主页中一些常用和不常用内容的位置','去除了博客和使用指南的入口及内容']
+    },
+    {
+        version: 'KRGZ-1.2.5',
+        date: '2025/02/01',
+        changes: ['修复了一些Bug。','规范迁移至本站中的CC俄语的内容。','修复KRGZ-天籁页面中的部分问题。','去除首页模态框内容']
+    },
+    {
+        version: 'KRGZ-1.2.4',
+        date: '2025/01/31',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.2.3',
+        date: '2025/01/30',
+        changes: ['修复了一些Bug。','迁移CC俄语中的部分内容到学无止境。']
+    },
+    {
+        version: 'KRGZ-1.2.2',
+        date: '2025/01/29',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.2.1',
+        date: '2025/01/25',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.2.0',
+        date: '2025/01/24',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.9',
+        date: '2025/01/23',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.8',
+        date: '2025/01/22',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.7',
+        date: '2025/01/21',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.6',
+        date: '2025/01/20',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.5',
+        date: '2025/01/19',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.4',
+        date: '2025/01/18',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.3',
+        date: '2025/01/17',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.2',
+        date: '2025/01/16',
+        changes: ['修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.1',
+        date: '2025/01/15',
+        changes: ['为主页面添加页脚内容。','修复了一些Bug。']
+    },
+    {
+        version: 'KRGZ-1.1.0',
+        date: '2025/01/14',
+        changes: ['添加了更新日志功能。']
+    },
+    {
+        version: 'KRGZ-0.0.7',
+        date: '2024/12/10',
+        changes: ['在此之后更新内容丢失。']
+    },
+    {
+        version: 'KRGZ-0.0.6',
+        date: '2024/12/10',
+        changes: ['将服务页面转为主页，主页转为博客。']
+    },
+    {
+        version: 'KRGZ-0.0.5',
+        date: '2024/12/01',
+        changes: ['完善了服务页面。']
+    },
+    {
+        version: 'KRGZ-0.0.3',
+        date: '2024/11/22',
+        changes: ['构建子页面。']
+    },
+    {
+        version: 'KRGZ-0.0.2',
+        date: '2024/11/21',
+        changes: ['框架搭建。']
+    },
+    {
+        version: 'KRGZ-0.0.1',
+        date: '2024/11/18',
+        changes: ['购买域名。']
+    }
+];
+
+
+let currentPage = 1; // 从1开始，因为第一页直接加载
+const itemsPerPage = 4;
+let loading = false;
+
+function createUpdateCard(update) {
+    const card = document.createElement('div');
+    card.className = 'update-card';
+    
+    card.innerHTML = `
+        <div class="grid">
+            <div class="version">
+                <span class="version-number">${update.version}</span>
+                <span class="date">${update.date}</span>
+            </div>
+            <ul class="changes">
+                ${update.changes.map(change => `<li>${change}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+    
+    return card;
+}
+
+// 加载初始更新
+function loadInitialUpdates() {
+    const initialUpdates = updates.slice(0, itemsPerPage);
+    
+    initialUpdates.forEach(update => {
+        const card = createUpdateCard(update);
+        card.classList.add('visible'); // 立即显示卡片
+        document.getElementById('timeline').appendChild(card);
+    });
+}
+
+function loadMoreUpdates() {
+    if (loading) return;
+    
+    const start = currentPage * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageUpdates = updates.slice(start, end);
+    
+    if (pageUpdates.length === 0) {
+        document.getElementById('loading').style.display = 'none';
+        return;
+    }
+    
+    loading = true;
+    document.getElementById('loading').style.display = 'block';
+    
+    setTimeout(() => {
+        pageUpdates.forEach(update => {
+            const card = createUpdateCard(update);
+            document.getElementById('timeline').appendChild(card);
+            setTimeout(() => card.classList.add('visible'), 100);
+        });
+        
+        currentPage++;
+        loading = false;
+        document.getElementById('loading').style.display = 'none';
+    }, 1000);
+}
+
+function checkScroll() {
+    const timeline = document.getElementById('timeline');
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const timelineBottom = timeline.offsetTop + timeline.offsetHeight;
+    
+    if (scrollPosition > timelineBottom - 500) {
+        loadMoreUpdates();
+    }
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+    loadInitialUpdates(); // 立即加载第一页
+    window.addEventListener('scroll', checkScroll);
+});
+
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    },
+    {
+        threshold: 0.1
+    }
+);
+</script>
+
+<iframe src="footer.html" frameborder="0" width="100%" height="500px"></iframe>
+
+</body>
+</html>

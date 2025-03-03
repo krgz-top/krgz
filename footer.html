@@ -1,0 +1,141 @@
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            margin-top: 10px;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px;
+        }
+        .footer-section h4 {
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0px 0px 0px 10px;
+        }
+        .footer-section ul li {
+            margin-bottom: 6px;
+        }
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: #4a90e2;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .contact-info i {
+            margin-right: 10px;
+            color: #4a90e2;
+            width: 20px;
+            text-align: center;
+        }
+        .subscribe-form {
+            display: flex;
+        }
+        .subscribe-form input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .subscribe-form button {
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .subscribe-form button:hover {
+            background-color: #3a80d2;
+        }
+        .copyright {
+            text-align: center;
+            background-color: #2a2a2a;
+            color: #aaa;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .copyright a {
+            color: #aaa;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        .copyright a:hover {
+            color: #4a90e2;
+        }
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+            }
+            .footer-section {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>社交平台</h4>
+                <ul>
+                    <li><a href="https://www.youtube.com/channel/UCfW3OVyyh5m_pQGSweensvg" target="_blank">Youtube</a></li>
+                    <li><a href="https://space.bilibili.com/3546793176467810" target="_blank">哔哩哔哩</a></li>
+                    <li><a href="https://www.instagram.com/krgz.top/" target="_blank">instagram</a></li>
+                    <li><a href="https://www.xiaohongshu.com/user/profile/60e037b1000000000100026c" target="_blank">小红书</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>联系方式</h4>
+                <ul>
+                    <li><a href="">Whatsapp：+996 705293968</a></li>
+                    <li><a href="">wechatid：KRGZ_TOP</a></li>
+                    <li><a href="">e-mail：krgz.top@gmail.com</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>友情链接</h4>
+                <ul>
+                    <li><a href="https://iscc.top" target="_blank">CC俄语</a></li>
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="copyright">Copyright © 2024.krgz.top All rights reserved.</div>
+    </footer>

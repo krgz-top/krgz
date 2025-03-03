@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>KRGZ</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-adsense-account" content="ca-pub-9159744845940766">
+<meta name="keywords" content="KRGZ">
+<meta name="description" content="欢迎来到KRGZ！">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="Shortcut Icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/tailwind.min.css">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 150vh;
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f3f4f6;
+    }
+
+    header {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .header-content {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .logo:hover {
+        transform: scale(1.15);
+    }
+
+    nav {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+        color: #007bff;
+    }
+
+    /* 贡献者卡片容器样式 */
+    .contributor-wrapper {
+        position: relative;
+        border-radius: 0.5rem;
+        padding: 2px;
+        transition: transform 0.3s ease;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 发光边框效果 - 现在默认显示 */
+    .contributor-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0.5rem;
+        padding: 2px;
+        background: linear-gradient(
+            45deg,
+            #ff0000,
+            #ff7300,
+            #fffb00,
+            #48ff00,
+            #00ffd5,
+            #002bff,
+            #7a00ff,
+            #ff00c8,
+            #ff0000
+        );
+        -webkit-mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+        mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        background-size: 400%;
+        animation: borderRotate 20s linear infinite;
+        opacity: 1; /* 默认显示动画 */
+    }
+
+    /* 悬停时整个卡片放大 */
+    .contributor-wrapper:hover {
+        transform: scale(1.02); /* 小幅度放大 */
+    }
+
+    @keyframes borderRotate {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 400% 50%; }
+    }
+
+    .contributor {
+        border-radius: 0.5rem;
+        background: white;
+        position: relative;
+        z-index: 1;
+        height: 100%;
+    }
+
+    .contribution-tag {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+        display: inline-block;
+    }
+
+    /* 垂直滚动条 */
+    /* 全局滚动条基础样式 */
+    * {
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: #db91f3 #ffd6d6;
+    }
+
+    /* Webkit 浏览器的滚动条样式 (Chrome, Safari, Edge 等) */
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+        background: #ffd6d6;
+    }
+
+    ::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #ffd6d6;
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        display: none;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #db91f3;
+        border-radius: 3px;
+        transition: background 0.2s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b63f9a;
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: #ffd6d6;
+    }
+
+    /* Sidebar 特定的滚动条样式 */
+    .sidebar {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* iOS 滚动惯性 */
+        /* 标准滚动行为 */
+        overflow-behavior: smooth;
+        -webkit-overflow-behavior: smooth;
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: #db91f3 #ffd6d6;
+    }
+
+    .sidebar::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+        background: #ffd6d6;
+    }
+
+    .sidebar::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: #ffd6d6;
+    }
+
+    .sidebar::-webkit-scrollbar-track-piece {
+        display: none;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: #db91f3;
+        border-radius: 3px;
+        transition: background 0.2s ease;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #b63f9a;
+    }
+
+    .sidebar::-webkit-scrollbar-corner {
+        background: #ffd6d6;
+    }
+
+    /* 移动端优化 */
+    @media (max-width: 768px) {
+        /* 保持基础滚动行为 */
+        .sidebar {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            /* 使用系统默认的弹性滚动 */
+            overscroll-behavior: auto;
+            /* 优化触摸体验 */
+            touch-action: pan-y;
+        }
+        
+        /* 确保滚动条在支持的设备上保持一致样式 */
+        .sidebar::-webkit-scrollbar {
+            width: 3px; /* 移动端稍细一点 */
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            border-radius: 1.5px;
+        }
+        
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .header-content {
+            padding: 0 0.5rem;
+        }
+        
+        h1.text-3xl {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* 深色模式支持 */
+    @media (prefers-color-scheme: dark) {
+        * {
+            scrollbar-color: #db91f3 #2d2d2d;
+        }
+        
+        ::-webkit-scrollbar,
+        ::-webkit-scrollbar-track,
+        ::-webkit-scrollbar-corner {
+            background: #2d2d2d;
+        }
+        
+        .sidebar::-webkit-scrollbar,
+        .sidebar::-webkit-scrollbar-track,
+        .sidebar::-webkit-scrollbar-corner {
+            background: #2d2d2d;
+        }
+    }
+    
+    /* 响应式布局增强 */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+    }
+    
+    @media (min-width: 640px) {
+        .grid {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    /* 移动端导航优化 */
+    @media (max-width: 480px) {
+        nav {
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .contributor-wrapper {
+            margin-bottom: 1rem;
+        }
+    }
+    
+    /* 修复iframe在移动端的显示 */
+    iframe {
+        width: 100%;
+        height: 800px;
+        border: 0;
+        overflow: hidden;
+    }
+    
+    @media (max-width: 768px) {
+        iframe {
+            height: 800px;
+        }
+    }
+    
+    /* 修复容器溢出 */
+    .container {
+        width: 100%;
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+    
+    /* 提高内容区域的可读性 */
+    .content-area {
+        flex: 1;
+        padding: 1rem 0;
+    }
+    
+    /* 小屏幕贡献者卡片样式微调 */
+    @media (max-width: 480px) {
+        .contributor {
+            padding: 1rem !important;
+        }
+        
+        .contribution-tag {
+            font-size: 0.7rem;
+            padding: 1px 6px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+    }
+</style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo"><a href="index.html"><img src="images/favicon.jpg" width="100%" height="100%"></a></div>
+            <nav>
+                <a href="Contributors.html">贡献</a>
+                <a href="renew.html">更新日志</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-area">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-center mb-8">贡献者墙</h1>
+            
+            <!-- 贡献者列表部分 -->
+            <div class="grid">
+                <!-- 贡献者卡片 1 - CC -->
+                <div class="contributor-wrapper">
+                    <div class="contributor bg-white shadow p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="images/Contributors/CC.jpg" alt="CC头像" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold">CC</h3>
+                                <p class="text-sm text-gray-500">业余前端工程师</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="contribution-tag bg-blue-100 text-blue-800">搭建网站</div>
+                            <div class="contribution-tag bg-green-100 text-green-800">Bug修复</div>
+                            <div class="contribution-tag bg-purple-100 text-purple-800">添加功能</div>
+                        </div>
+                        <div class="space-y-2 text-gray-600">
+                            <p>• 搭建了此网站</p>
+                            <p>• 修复一些BUG</p>
+                            <p>• 在每次的更新中添加更多的功能</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 贡献者卡片 2 - 雲追🌾 -->
+                <div class="contributor-wrapper">
+                    <div class="contributor bg-white shadow p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="images/Contributors/雲追🌾.jpg" alt="雲追🌾头像" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold">雲追🌾</h3>
+                                <p class="text-sm text-gray-500">菲罗斯星小玫瑰</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="contribution-tag bg-red-100 text-red-800">勤劳善良</div>
+                            <div class="contribution-tag bg-yellow-100 text-yellow-800">有创意</div>
+                            <div class="contribution-tag bg-pink-100 text-pink-800">可爱</div>
+                        </div>
+                        <div class="space-y-2 text-gray-600">
+                            <p>• 收集了许多的素材</p>
+                            <p>• 提供创意建议</p>
+                            <p>• 帮助测试功能</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 贡献者卡片 3 - JacksonF -->
+                <div class="contributor-wrapper">
+                    <div class="contributor bg-white shadow p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="images/Contributors/JacksonF.jpg" alt="JacksonF头像" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold">JacksonF</h3>
+                                <p class="text-sm text-gray-500">男主角</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="contribution-tag bg-indigo-100 text-indigo-800">资源贡献</div>
+                            <div class="contribution-tag bg-blue-100 text-blue-800">内容建议</div>
+                            <div class="contribution-tag bg-green-100 text-green-800">功能测试</div>
+                        </div>
+                        <div class="space-y-2 text-gray-600">
+                            <p>• 提供大量地址素材</p>
+                            <p>• 协助内容规划</p>
+                            <p>• 参与功能测试</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 贡献者卡片 4 -->
+                <div class="contributor-wrapper">
+                    <div class="contributor bg-white shadow p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="images/Contributors/.jpg" alt="头像" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold">名字</h3>
+                                <p class="text-sm text-gray-500">职业</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="contribution-tag bg-indigo-100 text-indigo-800">标签</div>
+                            <div class="contribution-tag bg-blue-100 text-blue-800">标签</div>
+                            <div class="contribution-tag bg-green-100 text-green-800">标签</div>
+                        </div>
+                        <div class="space-y-2 text-gray-600">
+                            <p>• 做点什么好呢</p>
+                            <p>• 做点什么好呢</p>
+                            <p>• 做点什么好呢</p>
+                        </div>
+                    </div>
+                </div>
+            </div><!--贡献者卡片结尾-->
+
+            <div class="mt-8 bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-bold mb-4">关于贡献者墙</h2>
+                <p class="text-gray-600">贡献者墙展示了为项目做出重要贡献的成员。每位成员的贡献都是项目成长的重要部分。如果您也想参与贡献，欢迎点击联系我们。</p>
+            </div>
+        </div>
+    </div>
+
+    <iframe src="footer.html" frameborder="0" width="100%" height="800px"></iframe>
+</body>
+</html>

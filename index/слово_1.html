@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-adsense-account" content="ca-pub-9159744845940766">
+    <title>алфавит-字母表</title>
+<meta name="keywords" content="CC俄语">
+<meta name="description" content="欢迎来到CC俄语！我们是您的资源分享和俄语学习中心。探索丰富多彩的学习资源，提升您的俄语技能，同时获得有价值的学习资料。无论您是俄语初学者还是高级学习者，我们都为您提供了灵活且有趣的学习工具和内容，助您踏上俄语之旅。">
+
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .video-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        @media (orientation: portrait) {
+            .video-container {
+                width: 90%;
+                height: auto;
+                aspect-ratio: 16 / 9;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>алфавит-字母表</h1>
+        <div class="video-container">
+            <video id="myVideo" controls>
+                <source src="../video/алфавит.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const videoContainer = document.querySelector('.video-container');
+
+        function adjustVideoSize() {
+            if (window.matchMedia("(orientation: landscape)").matches) {
+                // 横屏：全屏显示
+                videoContainer.style.width = '100%';
+                videoContainer.style.height = '100%';
+                video.style.width = '100%';
+                video.style.height = '100%';
+            } else {
+                // 竖屏：根据屏幕宽度调整
+                const containerWidth = videoContainer.offsetWidth;
+                const aspectRatio = 16 / 9; // 假设视频是16:9的比例
+                const calculatedHeight = containerWidth / aspectRatio;
+                
+                videoContainer.style.width = '90%';
+                videoContainer.style.height = `${calculatedHeight}px`;
+                video.style.width = '100%';
+                video.style.height = '100%';
+            }
+        }
+
+        // 页面加载时调整大小
+        window.addEventListener('load', adjustVideoSize);
+
+        // 屏幕方向改变时调整大小
+        window.addEventListener('orientationchange', adjustVideoSize);
+
+        // 窗口大小改变时调整大小
+        window.addEventListener('resize', adjustVideoSize);
+    </script>
+<iframe src="../footer.html" frameborder="0" width="100%" height="400px"></iframe>
+
+
+
+</body>
+</html>
